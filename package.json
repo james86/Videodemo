@@ -1,0 +1,23 @@
+{
+  "name": "bbc-northern-news-promo",
+  "version": "1.0.0",
+  "description": "Promo video for BBC Northern News",
+  "type": "module",
+  "scripts": {
+    "capture": "node playwright-capture.mjs",
+    "video": "remotion render src/index.tsx out/video.mp4",
+    "dev": "remotion preview src/index.tsx"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.0",
+    "@remotion/player": "^4.0.0",
+    "remotion": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "playwright": "^1.40.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+out/
+dist/
+.env
+.env.local
+*.mp4
+.remotion
+yarn.lock
+package-lock.json
+.DS_Store
+.idea/
+.vscode/
