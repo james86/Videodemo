@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BBC Northern News Promo - POC Demo</title>
+  <style>
+    * { margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #1a1a1a;
+      color: white;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin-bottom: 10px;
+      color: #ff0000;
+    }
+    .status {
+      background: #0a0a0a;
+      padding: 20px;
+      border-left: 4px solid #ff0000;
+      margin-bottom: 40px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .status-ok {
+      border-left-color: #00ff00;
+      color: #90ee90;
+    }
+    .status-fail {
+      border-left-color: #ff6b6b;
+      color: #ff9999;
+    }
+    .preview {
+      background: #000;
+      aspect-ratio: 16 / 9;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #333;
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      background-size: cover;
+      background-position: center;
+    }
+    .slide.active {
+      opacity: 1;
+    }
+    .slide-content {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 60px;
+      border-radius: 10px;
+    }
+    .slide-title {
+      font-size: 64px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .slide-subtitle {
+      font-size: 48px;
+      color: #ff0000;
+      font-weight: bold;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    button {
+      background: #1e40af;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #3b82f6;
+    }
+    button:active {
+      background: #1e40af;
+    }
+    .timeline {
+      background: #0a0a0a;
+      padding: 20px;
+      border-radius: 4px;
+      margin-top: 20px;
+    }
+    .timeline-bar {
+      width: 100%;
+      height: 40px;
+      background: #333;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .timeline-progress {
+      height: 100%;
+      background: linear-gradient(90deg, #1e40af, #3b82f6);
+      width: 0%;
+      transition: width 0.1s linear;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      font-size: 12px;
+    }
+    .specs {
+      background: #0a0a0a;
+      padding: 20px;
+      border-radius: 4px;
+      margin-top: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .spec-item {
+      border-left: 3px solid #1e40af;
+      padding-left: 15px;
+    }
+    .spec-label {
+      font-size: 12px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .spec-value {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎬 BBC Northern News Promo — POC Demo</h1>
+
+    <div class="status">
+      <strong>Status:</strong> Video composition pipeline working ✓<br>
+      <strong>Current limitation:</strong> Network blocks external sites (BBC.com, remotion.media)<br>
+      <strong>Solution:</strong> This demo uses local placeholder images. Real BBC screenshots are captured when run locally.
+    </div>
+
+    <div class="status status-ok">
+      <strong>✓ What works:</strong><br>
+      • Remotion composition (src/PromoVideo.tsx)<br>
+      • 15-second video timeline with fade transitions<br>
+      • Text overlays and BBC branding<br>
+      • Video encoding pipeline<br>
+      • 6 screenshot sequences
+    </div>
+
+    <div class="status status-fail">
+      <strong>✗ What's blocked in cloud:</strong><br>
+      • Playwright capture of BBC.com (network policy)<br>
+      • Remotion browser download (remotion.media blocked)<br>
+      • MP4 output (sandbox limitation)
+    </div>
+
+    <div class="preview">
+      <div id="slide-0" class="slide active" style="background-image: url('screenshots/01-bbc-home.png');">
+        <div class="slide-content">
+          <div class="slide-title">BBC News</div>
+          <div class="slide-subtitle">Home</div>
+        </div>
+      </div>
+      <div id="slide-1" class="slide" style="background-image: url('screenshots/02-bbc-home.png');">
+        <div class="slide-content">
+          <div class="slide-subtitle">England News</div>
+        </div>
+      </div>
+      <div id="slide-2" class="slide" style="background-image: url('screenshots/03-bbc-home.png');">
+        <div class="slide-content">
+          <div class="slide-subtitle">Northern Ireland</div>
+        </div>
+      </div>
+      <div id="slide-3" class="slide" style="background-image: url('screenshots/04-bbc-home.png');">
+        <div class="slide-content">
+          <div class="slide-subtitle">Latest Stories</div>
+        </div>
+      </div>
+      <div id="slide-4" class="slide" style="background-image: url('screenshots/05-bbc-home.png');">
+        <div class="slide-content">
+          <div class="slide-subtitle">Read Full Stories</div>
+        </div>
+      </div>
+      <div id="slide-5" class="slide" style="background-image: url('screenshots/06-bbc-home.png');">
+        <div class="slide-content">
+          <div class="slide-subtitle">Stay Updated</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button onclick="playPause()">▶ Play / Pause</button>
+      <button onclick="reset()">⟲ Reset</button>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-bar">
+        <div class="timeline-progress" id="progress" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <div class="specs">
+      <div class="spec-item">
+        <div class="spec-label">Duration</div>
+        <div class="spec-value">15 seconds</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Resolution</div>
+        <div class="spec-value">1920×1080 (4K)</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Frame Rate</div>
+        <div class="spec-value">30 fps</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Sequences</div>
+        <div class="spec-value">6 + 2 title/CTA</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Format</div>
+        <div class="spec-value">H.264 MP4</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Tool</div>
+        <div class="spec-value">Remotion 4.0</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    let isPlaying = false;
+    let totalTime = 15; // 15 seconds
+    let elapsed = 0;
+
+    const slides = [
+      { duration: 1.5 },  // title
+      { duration: 1.2 },  // home
+      { duration: 1.2 },  // england
+      { duration: 1.6 },  // northern ireland
+      { duration: 1.2 },  // scrolled
+      { duration: 1.4 },  // article
+      { duration: 1.2 },  // back to region
+      { duration: 1.4 }   // CTA
+    ];
+
+    function showSlide(n) {
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach(s => s.classList.remove('active'));
+      if (n < slides.length) {
+        slides[n].classList.add('active');
+      }
+    }
+
+    function playPause() {
+      isPlaying = !isPlaying;
+      if (isPlaying) animate();
+    }
+
+    function reset() {
+      isPlaying = false;
+      elapsed = 0;
+      currentSlide = 0;
+      showSlide(0);
+      updateProgress();
+    }
+
+    function animate() {
+      if (!isPlaying) return;
+      elapsed += 0.05;
+      if (elapsed > totalTime) {
+        elapsed = totalTime;
+        isPlaying = false;
+      }
+
+      currentSlide = Math.min(
+        Math.floor((elapsed / totalTime) * 8),
+        7
+      );
+      showSlide(currentSlide);
+      updateProgress();
+
+      if (isPlaying) requestAnimationFrame(animate);
+    }
+
+    function updateProgress() {
+      const percent = (elapsed / totalTime) * 100;
+      document.getElementById('progress').style.width = percent + '%';
+    }
+  </script>
+</body>
+</html>

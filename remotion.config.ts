@@ -1,6 +1,2 @@
-import { Config } from 'remotion';
-
-Config.setCodecH264Preset('medium');
-Config.setPixelFormat('yuv420p');
-
+// Remotion 4.0 config - using defaults
 export const fps = 30;
