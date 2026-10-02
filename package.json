@@ -6,6 +6,7 @@
   "scripts": {
     "capture": "node playwright-capture.mjs",
     "video": "remotion render src/index.tsx out/video.mp4",
+    "video:ffmpeg": "node ffmpeg-composer.mjs",
     "dev": "remotion preview src/index.tsx"
   },
   "dependencies": {
