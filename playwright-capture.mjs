@@ -9,9 +9,10 @@ async function captureNorthernNews() {
     fs.mkdirSync(screenshotsDir, { recursive: true });
   }
 
-  const browser = await chromium.launch();
-  const context = await browser.createBrowserContext();
-  const page = await context.newPage();
+  const browser = await chromium.launch({
+    executablePath: '/opt/pw-browsers/chromium',
+  });
+  const page = await browser.newPage();
 
   // Set viewport for consistent sizing
   await page.setViewportSize({ width: 1920, height: 1080 });
